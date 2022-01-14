@@ -13,9 +13,12 @@ struct node
 class skiplist
 {
 private:
+    int height;
+    node *start_pos;
     node *head;
     node *tail;
     int total_items;
+    bool randomize();
     
 public:
     skiplist();
@@ -23,6 +26,8 @@ public:
     int insert(int value);
     int remove(int index);
     int search(int index);
+    node *skip_search(int key);
+    node *skip_insert(int key, int value);
     void print(void);
 };
 

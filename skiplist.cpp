@@ -4,6 +4,45 @@
 
 using namespace std;
 
+bool randomize()
+{
+    srand((unsigned)time(0));
+    if (0 == rand()%2)
+        return true;
+    return false; 
+}
+
+node *skiplist::skip_search(int key)
+{
+    int index = 0;
+    node *pos = start_pos;
+
+    while (pos->below != NULL)
+    {
+        pos = pos->below;
+        while (key >= pos->after->value)
+            pos = pos->after;
+    }
+
+    return pos;
+}
+
+node *skiplist::skip_insert(int key, int value)
+{
+    int i = -1;
+    node *pos = skip_search(key);
+
+    while (true == randomize())
+    {
+        i++;
+        if (this->height <= i)
+        {
+            this->height++;
+
+        }
+    }
+}
+
 int skiplist::search(int value)
 {
     int index = 0;
@@ -91,6 +130,7 @@ skiplist::skiplist()
     this->tail->value = INT_MAX;
     this->head->after = this->tail;
     this->tail->before = this->head;
+    start_pos = head;
 }
 
 skiplist::~skiplist()
