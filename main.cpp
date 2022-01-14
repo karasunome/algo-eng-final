@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
         cout << "3. remove item" << endl;
         cout << "4. search item" << endl;
         cout << "9. exit" << endl;
+        cout << "select: ";
         cin >> cmd;
 
         switch (cmd)

@@ -56,13 +56,14 @@ int skiplist::insert(int value)
     new_node->value = value;
 
     next = this->head;
-    while (this->tail != next->after)
+    while (next->value < value)
         next = next->after;
+    next = next->before;
 
+    new_node->after = next->after;
+    next->after->before = new_node;
     next->after = new_node;
-    new_node->after = this->tail;
     new_node->before = next;
-    this->tail->before = new_node;
 
     this->total_items++;
 
