@@ -27,97 +27,45 @@ node *skiplist::skip_search(int key)
     return pos;
 }
 
-node *skiplist::skip_insert(int key, int value)
-{
-    int i = -1;
-    node *pos = skip_search(key);
-
-    while (true == randomize())
-    {
-        i++;
-        if (this->height <= i)
-        {
-            this->height++;
-
-        }
-    }
-}
-
-int skiplist::search(int value)
-{
-    int index = 0;
-    node *next;
-
-    next = this->head->after;
-    while(next->value != value && next != this->tail)
-    {
-        index++;
-        next = next->after;
-    }
-
-    return (index == this->total_items ? -1 : index);
-}
-
-int skiplist::remove(int index)
-{
-    node *next;
-    node *temp_before;
-    node *temp_after;
-
-    if (this->total_items <= index)
-        return -1;
-
-    next = this->head->after;
-    while(index--)
-        next = next->after;
-
-#if DEBUG
-    cout << index << endl;
-    cout << next->value << endl;
-#endif
-
-    temp_after = next->after;
-    temp_before = next->before;
-    delete next;
-    temp_after->before = temp_before;
-    temp_before->after = temp_after;
-
-    this->total_items--;
-
-    return 0;
-}
-
-int skiplist::insert(int value)
+node *insert(node *pos, node *q, int key, int value)
 {
     node *new_node = new node;
     node *next;
 
     new_node->value = value;
 
-    next = this->head;
-    while (next->value < value)
-        next = next->after;
-    next = next->before;
+    new_node->after = pos->after;
+    new_node->before = pos;
+    pos->after->before = new_node;
+    pos->after = new_node;
 
-    new_node->after = next->after;
-    next->after->before = new_node;
-    next->after = new_node;
-    new_node->before = next;
+    new_node->above = q->above;
+    new_node->below = q;
+    q->above->below = new_node;
+    q->above = new_node;
 
-    this->total_items++;
-
-    return 0;
+    return new_node;
 }
 
-void skiplist::print(void)
+node *skiplist::skip_insert(int key, int value)
 {
-    node *next = this->head;
-    while (next != this->tail)
+    int i = -1;
+    node *pos = this->skip_search(key);
+    node *q;
+
+    do
     {
-        cout << "[" << next->value << "] ";
-        next = next->after;
-    }
-    cout << "[" <<  this->tail->value << "] " << endl;
+        i++;
+        if (this->height <= i)
+        {
+            this->height++;
+            start_pos = insert(NULL, start_pos, -INT_MAX, -INT_MAX);
+            tail = 
+           
+        }
+    } while (true == this->randomize());
+
+    return NULL;
 }
 
 skiplist::skiplist()
