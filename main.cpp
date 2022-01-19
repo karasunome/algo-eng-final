@@ -10,17 +10,16 @@ int main(int argc, char *argv[])
     int exit = 1;
     skiplist *list = new skiplist();
 
-    list->skip_insert(12, 12);
-    list->skip_insert(17, 17);
-    list->skip_insert(20, 20);
-    list->skip_insert(25, 25);
-    list->skip_insert(31, 31);
-    list->skip_insert(38, 38);
-    list->skip_insert(39, 39);
-    //list->skip_insert(42, 12);
-    list->skip_insert(44, 44);
-    list->skip_insert(50, 50);
-    list->skip_insert(55, 55);
+    // list->skip_insert(12, 12);
+    // list->skip_insert(17, 17);
+    // list->skip_insert(20, 20);
+    // list->skip_insert(25, 25);
+    // list->skip_insert(31, 31);
+    // list->skip_insert(38, 38);
+    // list->skip_insert(39, 39);
+    // list->skip_insert(44, 44);
+    // list->skip_insert(50, 50);
+    // list->skip_insert(55, 55);
 
     while (exit)
     {

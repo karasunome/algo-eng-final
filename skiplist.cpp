@@ -6,13 +6,9 @@ using namespace std;
 
 bool skiplist::randomize()
 {
-    srand((unsigned)time(NULL));
-    if (1 == rand()%2)
-    {
-        printf("even\n");
+    //srand((unsigned)time(NULL));
+    if (rand()%2)
         return true;
-    }
-    printf("odd\n");
     return false; 
 }
 
