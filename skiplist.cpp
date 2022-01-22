@@ -32,13 +32,22 @@ node *skiplist::insert(node *p, node *q, int key, int value)
     node *new_node = new node;
     new_node->value = value;
 
-    if ((NULL == p) || (NULL == q)) /* when we add a new level */
+    if (NULL == p) /* when we add a new level */
     {
         new_node->before = p;
         new_node->after = NULL;
         new_node->above = NULL;
         new_node->below = q;
         q->above = new_node;
+    }
+    else if (NULL == q)
+    {
+        new_node->before = p;
+        new_node->after = p->after;
+        new_node->above = NULL;
+        new_node->below = NULL;
+        p->after->before = new_node;
+        p->after = new_node;
     }
     else
     {
@@ -57,7 +66,7 @@ node *skiplist::skip_insert(int key, int value)
 {
     int i = -1;
     node *pos = this->skip_search(key);
-    node *q;
+    node *q = NULL;
     node *start_pos_after;
 
     do
@@ -70,10 +79,10 @@ node *skiplist::skip_insert(int key, int value)
             start_pos = this->insert(NULL, start_pos, -INT_MAX, -INT_MAX);
             this->insert(start_pos, start_pos_after, +INT_MAX, +INT_MAX);
         }
+        q = this->insert(pos, q, key, value);
         while (NULL == pos->above)
             pos = pos->before;
         pos = pos->above;
-        q = this->insert(pos, q, key, value);
     } while (true == this->randomize());
 
     this->total_items++;
@@ -96,14 +105,22 @@ void skiplist::print(void)
 skiplist::skiplist()
 {
     this->total_items = 0;
-    this->head = new node;
-    this->tail = new node;
+    this->height = 0;
 
-    this->head->value = -INT_MAX;
-    this->tail->value = INT_MAX;
-    this->head->after = this->tail;
-    this->tail->before = this->head;
-    start_pos = head;
+    start_pos = new node;
+    start_pos->after = new node;
+
+    start_pos->value = -INT_MAX;
+    start_pos->after->value = INT_MAX;
+
+    start_pos->above = NULL;
+    start_pos->before = NULL;
+    start_pos->below = NULL;
+
+    start_pos->after->before = start_pos;
+    start_pos->after->above = NULL;
+    start_pos->after->after = NULL;
+    start_pos->after->below = NULL;
 }
 
 skiplist::~skiplist()
