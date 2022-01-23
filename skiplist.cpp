@@ -4,17 +4,24 @@
 
 using namespace std;
 
+/*
+ randomize - this function generates a random integer, then
+ if for odd value returns true otherwise false. This used for
+ randomization.
+ */
 bool skiplist::randomize()
 {
-    //srand((unsigned)time(NULL));
     if (rand()%2)
         return true;
     return false; 
 }
 
+/*
+ This function finds and returns skip list node has value 
+ equal or lesser than given key value.
+ */
 node *skiplist::skip_search(int key)
 {
-    int index = 0;
     node *pos = start_pos;
 
     while (pos->below != NULL)
@@ -27,6 +34,61 @@ node *skiplist::skip_search(int key)
     return pos;
 }
 
+/*
+ This function finds firstly trying to find given key value
+ in S0 serie. If it is failed then function returns -1. After
+ that, this function finds S0 index value and returns this.
+ */
+int skiplist::skip_get_item_index(int key)
+{
+    int index = 0;
+    node *pos = this->skip_search(key);
+
+    if (pos->value != key)
+        return -1;
+
+    while (pos->before != NULL)
+    {
+        pos = pos->before;
+        index++;
+    }
+
+    return (index);
+}
+
+/*
+ This function remove the tower owns to given key value.
+ Also it returns -1 when if the value is inappropriated
+ or can not be found.
+ */
+int skiplist::skip_remove(int value)
+{
+    node *pos;
+
+    if ((INT_MAX == value) || (-INT_MAX == value))
+        return -1;
+    
+    pos = this->skip_search(value);
+    if (pos->value != value)
+        return -1;
+
+    while (NULL != pos)
+    {
+        pos->before->after = pos->after;
+        pos->after->before = pos->before;
+        pos = pos->above;
+    }
+
+    return 0;
+}
+
+/*
+ This function adds given value after node p and above node q.
+ If p is NULL, this is for adding first node of new level to skip list.
+ If q is NULL, this is another special state for adding end node to new level.
+ Otherwise when this function called, new node is created and before, after,
+ above and below positions are assigned.
+ */
 node *skiplist::insert(node *p, node *q, int key, int value)
 {
     node *new_node = new node;
@@ -62,6 +124,18 @@ node *skiplist::insert(node *p, node *q, int key, int value)
     return new_node;
 }
 
+/*
+ This function inserts a new value to the skip list.
+ The insertion algorithm is explained step by step below.
+ i - Position for new value is found by skip_search. pos pointer
+   initialized to this positon. q pointer is null at the begining.
+ ii - Every time i and height of skip list are compared and
+   if no enough level exists, new level is added to skiplist.
+   value i is incremented every loop.
+ iii - After that, given value is added to current level. Then pos
+   pointer is moved to before positon of value on the higher level.
+ iv - This steps repeats until the randomize function returns true.
+ */
 node *skiplist::skip_insert(int key, int value)
 {
     int i = -1;
@@ -90,6 +164,10 @@ node *skiplist::skip_insert(int key, int value)
     return q;
 }
 
+/*
+ This function prints value from the higher level left most position
+ of skip list to the last item of skiplist.
+ */
 void skiplist::print(void)
 {
     for (node* p = start_pos; NULL != p; p = p->below)
@@ -102,6 +180,10 @@ void skiplist::print(void)
     }
 }
 
+/*
+ construction function for skiplist. This function create first level.
+ this level only consists of -INT_MAX and +INT_MAX values.
+ */
 skiplist::skiplist()
 {
     this->total_items = 0;
@@ -123,6 +205,9 @@ skiplist::skiplist()
     start_pos->after->below = NULL;
 }
 
+/*
+ 
+ */
 skiplist::~skiplist()
 {
 }

@@ -1,3 +1,7 @@
+/*
+ This program is created for testing skiplist data structure class.
+ */
+
 #include <iostream>
 #include "skiplist.h"
 
@@ -7,19 +11,22 @@ int main(int argc, char *argv[])
 {
     int cmd;
     int value;
+    int result;
     int exit = 1;
     skiplist *list = new skiplist();
+    node *found;
 
-    // list->skip_insert(12, 12);
-    // list->skip_insert(17, 17);
-    // list->skip_insert(20, 20);
-    // list->skip_insert(25, 25);
-    // list->skip_insert(31, 31);
-    // list->skip_insert(38, 38);
-    // list->skip_insert(39, 39);
-    // list->skip_insert(44, 44);
-    // list->skip_insert(50, 50);
-    // list->skip_insert(55, 55);
+    /* initialization dummy skiplist */
+    list->skip_insert(12, 12);
+    list->skip_insert(17, 17);
+    list->skip_insert(20, 20);
+    list->skip_insert(25, 25);
+    list->skip_insert(31, 31);
+    list->skip_insert(38, 38);
+    list->skip_insert(39, 39);
+    list->skip_insert(44, 44);
+    list->skip_insert(50, 50);
+    list->skip_insert(55, 55);
 
     while (exit)
     {
@@ -45,16 +52,21 @@ int main(int argc, char *argv[])
             break;
 
         case 3:
-            cout << "index: ";
+            cout << "value: ";
             cin >> value;
-            /*list->remove(value);*/
-            cout << endl;
+            result = list->skip_remove(value);
+            cout << value << " value " << ((result == 0) ? "has been deleted." \
+                    : "can not be found!") << endl;
             break;
         
         case 4:
             cout << "value: ";
             cin >> value;
-            cout << "index = " << list->skip_search(value) << endl;
+            result = list->skip_get_item_index(value);
+            if (0 > result)
+                cout << value << " can not be found" << endl;
+            else
+                cout << value << " found in index " << result << endl;
             break;
 
         case 9:

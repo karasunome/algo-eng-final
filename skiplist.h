@@ -1,31 +1,37 @@
 #ifndef SKIPLIST_H
 #define SKIPLIST_H
 
+/* node structure */
 struct node 
 {
-    int value;
-    node *below;
-    node *above;
-    node *before;
-    node *after;
+    int value;      /* value of node */
+    node *below;    /* below node pointer */
+    node *above;    /* above node pointer */
+    node *before;   /* before node pointer */
+    node *after;    /* after node pointer */
 };
 
+/* skiplist class */
 class skiplist
 {
 private:
-    int height;
-    node *start_pos;
-    node *head;
-    node *tail;
-    int total_items;
+    /* private variable declerations */
+    int height; /* height of the list */
+    node *start_pos; /* top and left most position */
+    int total_items; /* total node counts */
+
+    /* private function declerations */
     bool randomize();
     node *insert(node *pos, node *q, int key, int value);
     
 public:
+    /* public function declerations */
     skiplist();
     ~skiplist();
     node *skip_search(int key);
     node *skip_insert(int key, int value);
+    int skip_get_item_index(int key);
+    int skip_remove(int value);
     void print(void);
 };
 
