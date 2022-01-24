@@ -1,6 +1,7 @@
 Skip List Data Structure
 ------------------------
 Author: Şafak TÜLEMEZ
+GitHub: https://github.com/karasunome/algo-eng-final/issues
 
 Final Report: REPORT.pdf
 
