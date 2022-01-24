@@ -16,6 +16,11 @@ bool skiplist::randomize()
     return false; 
 }
 
+int skiplist::get_total_items()
+{
+    return this->total_items;
+}
+
 /*
  This function finds and returns skip list node has value 
  equal or lesser than given key value.
@@ -121,6 +126,8 @@ node *skiplist::insert(node *p, node *q, int key, int value)
         q->above = new_node;
     }
 
+    this->total_items++;
+
     return new_node;
 }
 
@@ -158,8 +165,6 @@ node *skiplist::skip_insert(int key, int value)
             pos = pos->before;
         pos = pos->above;
     } while (true == this->randomize());
-
-    this->total_items++;
 
     return q;
 }

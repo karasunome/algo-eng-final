@@ -33,6 +33,7 @@ public:
     int skip_get_item_index(int key);
     int skip_remove(int value);
     void print(void);
+    int get_total_items();
 };
 
 #endif /* SKIPLIST_H */
